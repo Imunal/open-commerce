@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+  }
+  .header {
+    background-color: #F29324;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+  }
+  .content {
+    padding: 20px;
+    text-align: left;
+    line-height: 1.6;
+  }
+  .footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    color: #888888;
+  }
+  a {
+    color: #009688;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Witamy w OpenCommerce!</h1>
+  </div>
+  <div class="content">
+    <p>Witaj {{userName}},</p>
+            <p>Dziękujemy za rejestrację w naszym sklepie! Jesteśmy podekscytowani, że dołączyłeś/aś do naszej społeczności. Jako zarejestrowany użytkownik, możesz teraz korzystać z pełnej funkcjonalności naszego sklepu, w tym:</p>
+            <ul>
+                <li>Śledzenie statusu zamówienia</li>
+                <li>Szybsze procesowanie zakupów</li>
+                <li>Dostęp do ekskluzywnych ofert</li>
+            </ul>
+            <p>Aby zacząć korzystać z Twojego nowego konta, kliknij poniższy przycisk:</p>
+            <p><a href={{website}} target="_blank">Zaloguj się do konta</a></p>
+            <p>Mamy nadzieję, że będziesz zadowolony z zakupów w naszym sklepie. W razie jakichkolwiek pytań, skontaktuj się z nami pod adresem: <a href="mailto:hello@opencommerce.com">hello@opencommerce.com</a>.</p>
+        </div>
+  <div class="footer">
+    <p>© &copy; OpenCommerce. Wszelkie prawa zastrzeżone.</p>
+    <p>Prosimy nie odpowiadać na ten e-mail, został on wygenerowany automatycznie.</p>
+  </div>
+</div>
+</body>
+</html>
