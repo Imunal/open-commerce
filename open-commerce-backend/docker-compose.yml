@@ -1,0 +1,11 @@
+services:
+  products:
+    build:
+      context: .
+      dockerfile: ./apps/products/Dockerfile
+      target: development
+    command: npm run start:dev products
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node
