@@ -1,5 +1,6 @@
 services:
-  products:
+  microservice-products:
+    container_name: microservice-products
     build:
       context: .
       dockerfile: ./apps/products/Dockerfile
@@ -9,3 +10,31 @@ services:
       - '3000:3000'
     volumes:
       - .:/home/node
+  microservice-auth:
+    container_name: microservice-auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/home/node
+  mysql-db:
+    container_name: mysql-db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+    ports:
+      - '3306:3306'
+  phpmyadmin-db:
+    container_name: phpmyadmin-db
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

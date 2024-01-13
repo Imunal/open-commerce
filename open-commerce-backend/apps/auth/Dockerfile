@@ -34,4 +34,4 @@ RUN npm i --production
 
 COPY --from=development /home/node/dist ./dist
 
-CMD ["node", "dist/apps/products/main.js"]
+CMD ["node", "dist/apps/auth/main.js"]
