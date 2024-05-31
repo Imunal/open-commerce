@@ -7,6 +7,8 @@ export default defineConfig({
     environment: "jsdom",
     coverage: {
       provider: "v8",
+      exclude: ["app/*", "configs/*", ".next/*", "test-examples/*", "public/*"],
     },
+    exclude: ["app/*", "configs/*"],
   },
 });
