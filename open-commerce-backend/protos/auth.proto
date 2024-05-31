@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package auth;
+
+service AuthenticationService {
+    rpc authenticate(Authentication) returns (UserMessage) {}
+}
+
+message Authentication {
+    string gRPCAuthToken = 1;
+}
+
+message UserMessage {
+    string userId = 1;
+    string userEmail = 2;
+    string userPassword = 3;
+}
+

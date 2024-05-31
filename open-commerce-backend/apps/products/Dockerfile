@@ -34,4 +34,6 @@ RUN npm i --production
 
 COPY --from=development /home/node/dist ./dist
 
+COPY proto proto
+
 CMD ["node", "dist/apps/products/main.js"]

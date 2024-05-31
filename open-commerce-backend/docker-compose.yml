@@ -10,6 +10,8 @@ services:
       - '3000:3000'
     volumes:
       - .:/home/node
+    env_file:
+      - ./apps/products/.env
   microservice-auth:
     container_name: microservice-auth
     build:
@@ -21,6 +23,8 @@ services:
       - '3001:3001'
     volumes:
       - .:/home/node
+    env_file:
+      - ./apps/auth/.env
   mysql-db:
     container_name: mysql-db
     image: mysql
