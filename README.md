@@ -1,6 +1,6 @@
 # open-commerce
 
-Microservice based eCommerce B2C project build to learn gRPC, monorepo, openai for type generation on frontend, and more stuff...
+Microservice based eCommerce B2C project build to learn gRPC, monorepo, openapi for type generation on frontend, and more stuff...
 
 Stack for now, may change later:
 
