@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -18,5 +21,8 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require('tailwindcss-react-aria-components')],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("tailwindcss-react-aria-components"),
+  ],
 } satisfies Config;

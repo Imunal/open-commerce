@@ -1,4 +1,8 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import {
+  Button as AriaButton,
+  ButtonProps as AriaButtonProps,
+} from "react-aria-components";
 
 const button = cva("button", {
   variants: {
@@ -29,7 +33,7 @@ const button = cva("button", {
 });
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends AriaButtonProps,
     VariantProps<typeof button> {}
 
 export const Button: React.FC<ButtonProps> = ({
@@ -37,4 +41,4 @@ export const Button: React.FC<ButtonProps> = ({
   intent,
   size,
   ...props
-}) => <button className={button({ intent, size, className })} {...props} />;
+}) => <AriaButton className={button({ intent, size, className })} {...props} />;
