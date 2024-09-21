@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
-import { configDefaults } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { configDefaults } from "vitest/config";
 
 export default defineConfig({
   plugins: [
