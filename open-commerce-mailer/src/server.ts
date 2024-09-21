@@ -1,27 +1,27 @@
 import { Kafka } from "kafkajs";
 import dotenv from "dotenv";
 
-//Configs
+// Configs
 import { logger } from "configs/logger";
 
-//Init dotenv
+// Init dotenv
 dotenv.config({ path: "./.env" });
 
-//Init Kafka
+// Init Kafka
 const kafka = new Kafka({
   clientId: "open-commerce-mailer",
   brokers: process.env.KAFKA_BROKERS,
 });
 
-//Start kafka consumer
+// Start kafka consumer
 const consumer = kafka.consumer({ groupId: "open-commerce-mailer-group" });
 await consumer.connect();
 await consumer.subscribe({ topic: "open-commerce-mailer" });
 
-//Catch messages
+// Catch messages
 await consumer.run({
   eachMessage: async ({ topic, partition, message }) => {
-    //Test handling
+    // Test handling
     logger.info(
       {
         value: message.value.toString(),
@@ -32,5 +32,5 @@ await consumer.run({
   },
 });
 
-//Log success
+// Log success
 logger.info("[OPEN-COMMERCE-MAILER]: Mailer started listening for messages...");
