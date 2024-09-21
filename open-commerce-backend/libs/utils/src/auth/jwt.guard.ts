@@ -9,24 +9,23 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { AUTH_SERVICE } from '../constants/services';
 
 import { ClientGrpc } from '@nestjs/microservices';
 
-import { AuthenticationServiceClientImpl } from '../types/auth';
+import { AuthenticationServiceClient } from '../types/auth';
 
 @Injectable()
 export class JwtGuard implements CanActivate, OnModuleInit {
-  private authService: AuthenticationServiceClientImpl;
+  private authService: AuthenticationServiceClient;
   constructor(
-    @Inject(AUTH_SERVICE) private readonly client: ClientGrpc,
+    @Inject('AUTH_SERVICE') private readonly client: ClientGrpc,
     private configService: ConfigService,
     private jwtService: JwtService,
   ) {}
 
   onModuleInit() {
     this.authService =
-      this.client.getService<AuthenticationServiceClientImpl>(AUTH_SERVICE);
+      this.client.getService<AuthenticationServiceClient>('AUTH_SERVICE');
   }
 
   async canActivate(context: ExecutionContext): Promise<any> {
@@ -42,7 +41,7 @@ export class JwtGuard implements CanActivate, OnModuleInit {
       //request['user'] = payload;
 
       return this.authService.authenticate({
-        gRPCAuthToken: payload,
+        grpc_auth_token: payload,
       });
     } catch {
       throw new UnauthorizedException();

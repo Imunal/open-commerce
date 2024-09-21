@@ -1,37 +1,51 @@
-FROM node:alpine AS development
+FROM node:alpine as development
 
-ARG NODE_ENV=develop
-ENV NODE_ENV=${NODE_ENV}
+WORKDIR /usr/src/app
 
-WORKDIR /home/node
-
-#
 COPY package.json ./
-COPY package-lock.json ./
+COPY pnpm-lock.yaml ./
+COPY tsconfig.json ./tsconfig.json
+COPY nest-cli.json nest-cli.json
+COPY prisma ./prisma
 
-RUN npm i
+ENV PROTO_PATH='/usr/src/app/protos'
+COPY protos $PROTO_PATH
 
-COPY . .
+RUN npm install -g pnpm
 
-RUN npm run build
+RUN pnpm install
 
-#-----------------------
+RUN pnpm prisma generate
 
-FROM node:alpine AS production
+COPY apps/auth apps/auth
+COPY libs libs
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+RUN pnpm run build auth
 
-WORKDIR /home/node
+FROM node:alpine as production
 
-#
+WORKDIR /usr/src/app
+
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
+ENV PROTO_PATH='/usr/src/app/protos'
+
 COPY package.json ./
-COPY package-lock.json ./
+COPY pnpm-lock.yaml ./
+COPY prisma ./prisma
 
-RUN npm i
+RUN npm i -g pnpm
+RUN pnpm install --prod
 
-RUN npm i --production
+COPY --from=development /usr/src/app/dist/ ./dist
 
-COPY --from=development /home/node/dist ./dist
+#COPY Protos directory
+COPY protos $PROTO_PATH
 
-CMD ["node", "dist/apps/auth/main.js"]
+#Move to build directory and create .env file there
+WORKDIR /usr/src/app/dist/apps/auth
+
+RUN echo "NODE_ENV=production" >> ./.env
+RUN echo "DATABASE_URL=${DATABASE_URL}" >> ./.env
+CMD ["node", "--env-file=.env", "/usr/src/app/dist/apps/auth/main.js"]

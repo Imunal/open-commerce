@@ -13,4 +13,19 @@ model User {
   user_email    String  @unique
   user_name     String?
   user_password String
+  user_isActive Boolean @default(true)
+
+  user_created_at DateTime @default(now())
+  user_updated_at DateTime @updatedAt
+}
+
+model Product {
+  product_id        Int     @id @default(autoincrement())
+  product_name      String
+  product_price_net Int
+  product_price_vat Int
+  product_isActive  Boolean @default(true)
+
+  product_created_at DateTime @default(now())
+  product_updated_at DateTime @updatedAt
 }

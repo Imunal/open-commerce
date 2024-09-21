@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersService } from '../users/users.service';
-import { request } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -13,7 +12,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest:
-        ExtractJwt.fromAuthHeaderAsBearerToken() || request?.gRPCAuthToken,
+        //@ts-ignore
+        ExtractJwt.fromAuthHeaderAsBearerToken() || request?.grpc_auth_token,
       secretOrKey: configService.get('JWT_SECRET'),
     });
   }

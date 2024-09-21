@@ -1,29 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthModule } from './auth.module';
 import { Logger } from 'nestjs-pino';
-import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Transport } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { AUTH_PACKAGE_NAME } from '@app/utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
-  const configService = app.get(ConfigService);
-  app.connectMicroservice({
+
+  //Connect gRPC
+  app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
-      package: 'auth',
-      protoPath: join(__dirname, '../../../proto/auth.proto'),
-      url: configService.getOrThrow('AUTH_GRPC_URL'),
+      package: AUTH_PACKAGE_NAME,
+      protoPath: join(process.env.PROTO_PATH || 'protos', 'auth.proto'),
+      loader: {
+        longs: Number,
+      },
+      url: '0.0.0.0:5001',
     },
   });
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
-  );
+
+  //Logger
   app.useLogger(app.get(Logger));
+
   await app.startAllMicroservices();
-  await app.listen(configService.get<string>('PORT'));
 }
 bootstrap();

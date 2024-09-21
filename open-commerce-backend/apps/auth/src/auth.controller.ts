@@ -24,6 +24,7 @@ export class AuthController implements AuthenticationServiceController {
 
   @UseGuards(LocalAuthGuard)
   @Post('authenticate')
+  //@ts-ignore
   async authenticate(@AuthenticatedUser() user: User) {
     try {
       return await this.authService.authenticate(user);

@@ -1,44 +1,42 @@
 services:
-  microservice-products:
-    container_name: microservice-products
+  microservice-api-gateway:
+    container_name: microservice-api-gateway
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+      target: development
+    command: pnpm run start:dev api-gateway
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - ./apps/api-gateway/.env
+
+  microservice-payments:
+    container_name: microservice-payments
     build:
       context: .
       dockerfile: ./apps/products/Dockerfile
       target: development
-    command: npm run start:dev products
+    command: pnpm run start:dev products
     ports:
-      - '3000:3000'
+      - '5000:5000'
     volumes:
-      - .:/home/node
+      - .:/usr/src/app
     env_file:
       - ./apps/products/.env
+
   microservice-auth:
     container_name: microservice-auth
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
-    command: npm run start:dev auth
+    command: pnpm run start:dev auth
     ports:
-      - '3001:3001'
+      - '5001:5001'
     volumes:
-      - .:/home/node
+      - .:/usr/src/app
     env_file:
       - ./apps/auth/.env
-  mysql-db:
-    container_name: mysql-db
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=123
-    ports:
-      - '3306:3306'
-  phpmyadmin-db:
-    container_name: phpmyadmin-db
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      - PMA_ARBITRARY=1

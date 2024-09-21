@@ -2,17 +2,19 @@ syntax = "proto3";
 
 package auth;
 
+//protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=snakeToCamel=false --ts_proto_out=./ --ts_proto_opt=nestJs=true ./protos/auth.proto
+
 service AuthenticationService {
     rpc authenticate(Authentication) returns (UserMessage) {}
 }
 
 message Authentication {
-    string gRPCAuthToken = 1;
+    string grpc_auth_token = 1;
 }
 
 message UserMessage {
-    string userId = 1;
-    string userEmail = 2;
-    string userPassword = 3;
+    string user_id = 1;
+    string user_email = 2;
+    string user_password = 3;
 }
 
